@@ -76,9 +76,9 @@ def run():
         engine.train_fn(train_data_loader, model, optimizer, device, scheduler)
         outputs, targets = engine.eval_fn(valid_data_loader, model, device)
 
-        #TODO definr accuracy calculation for multi label
-        outputs = np.array(outputs) >= 0.5
-        accuracy = metrics.accuracy_score(targets, outputs)
+        #TODO define accuracy calculation for multi label
+        outputs = np.array(outputs) >= 0.5 #here maybe scope for hyperparameters?
+        accuracy = metrics.accuracy_score([i for j in targets for i in j], [i for j in outputs for i in j])
         print(f"Accuracy Score = {accuracy}")
         if accuracy > best_accuracy:
             torch.save(model.state_dict(), config.MODEL_PATH)
